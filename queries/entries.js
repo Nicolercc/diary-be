@@ -1,4 +1,5 @@
 const db = require("../db/dbConfig.js");
+const { getUsers } = require("./users.js");
 
 const getAllEntries = async () => {
   try {
@@ -21,13 +22,43 @@ const getEntry = async (id) => {
   }
 };
 
+const postEntry = async (entries) => {
+  try {
+    const newEntry = await db.one(
+      "INSERT INTO diary_entries (user_id, title, content, mood, is_private) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [
+        entries.user_id,
+        entries.title,
+        entries.content,
+        entries.mood,
+        entries.is_private,
+      ]
+    );
+    return newEntry;
+  } catch (e) {
+    return e;
+  }
+};
+
 const deleteEntry = async (id) => {
   try {
     const deletedEntry = await db.one(
-      "DELETE FROM diary_entry WHERE entry_id=$1 RETURNING *",
+      "DELETE FROM diary_entries WHERE entry_id=$1 RETURNING *",
       id
     );
     return deletedEntry;
+  } catch (e) {
+    return e;
+  }
+};
+
+const updateEntry = async (entry) => {
+  try {
+    const updatedEntry = await db.one(
+      "UPDATE diary_entries SET title=$1, content=$2, mood=$3, is_private=$4 WHERE id=$5 RETURNING *",
+      [entry.title, entry.content, entry.mood, entry.is_private]
+    );
+    return updatedEntry;
   } catch (e) {
     return e;
   }
@@ -37,4 +68,6 @@ module.exports = {
   getAllEntries,
   getEntry,
   deleteEntry,
+  postEntry,
+  updateEntry,
 };
