@@ -1,6 +1,18 @@
 const db = require("../db/dbConfig.js");
 const { getUsers } = require("./users.js");
 
+// const getAllEntries = async (user_id) => {
+//   try {
+//     const allEntries = await db.any(
+//       "SELECT * FROM diary_entries WHERE user_id=$1",
+//       [user_id]
+//     );
+//     return allEntries;
+//   } catch (e) {
+//     return e;
+//   }
+// };
+
 const getAllEntries = async () => {
   try {
     const allEntries = await db.any("SELECT * FROM diary_entries");

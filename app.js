@@ -18,6 +18,8 @@ app.get("/", (req, res) => {
 const diaryEntriesController = require("./controllers/entriesController");
 app.use("/entries", diaryEntriesController);
 
+//I AM NOT GETTING INDV ENTRIES PER USER -- I GET ALL
+
 const usersController = require("./controllers/usersController");
 app.use("/users", usersController);
 
