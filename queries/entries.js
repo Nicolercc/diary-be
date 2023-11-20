@@ -1,5 +1,4 @@
 const db = require("../db/dbConfig.js");
-const { getUsers } = require("./users.js");
 
 // const getAllEntries = async (user_id) => {
 //   try {
@@ -52,11 +51,11 @@ const postEntry = async (entries) => {
   }
 };
 
-const deleteEntry = async (id) => {
+const deleteEntry = async (entry_id) => {
   try {
     const deletedEntry = await db.one(
       "DELETE FROM diary_entries WHERE entry_id=$1 RETURNING *",
-      id
+      entry_id
     );
     return deletedEntry;
   } catch (e) {
@@ -67,8 +66,8 @@ const deleteEntry = async (id) => {
 const updateEntry = async (entry) => {
   try {
     const updatedEntry = await db.one(
-      "UPDATE diary_entries SET title=$1, content=$2, mood=$3, is_private=$4 WHERE id=$5 RETURNING *",
-      [entry.title, entry.content, entry.mood, entry.is_private]
+      "UPDATE diary_entries SET title=$1, content=$2, mood=$3, is_private=$4 WHERE entry_id=$5 RETURNING *",
+      [entry.title, entry.content, entry.mood, entry.is_private, entry.entry_id]
     );
     return updatedEntry;
   } catch (e) {

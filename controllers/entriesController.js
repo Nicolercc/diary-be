@@ -1,5 +1,5 @@
 const express = require("express");
-const entries = express.Router({ mergeParams: true });
+const entries = express.Router();
 
 const {
   getAllEntries,
@@ -50,18 +50,16 @@ entries.post("/", async (req, res) => {
 entries.delete("/:id", async (req, res) => {
   const { id } = req.params;
   const deletedEntry = await deleteEntry(id);
-  if (deletedEntry.id) {
-    res.status(200).json(deletedEntry);
-  } else {
-    res.status(404).json({ error: "Entry not found" });
-  }
+  res.status(200).json(deletedEntry);
 });
 
 //put request missing
 entries.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const updatedEntry = await updateEntry({ user_id, id, ...req.body });
-  if (updatedReview.id) {
+  const body = req.body;
+
+  const updatedEntry = await updateEntry({ entry_id: id, ...body });
+  if (updatedEntry) {
     res.status(200).json(updatedEntry);
   } else {
     res.status(404).json({ error: "Entry not found" });
