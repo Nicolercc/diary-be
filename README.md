@@ -14,7 +14,9 @@ Make sure you have Node.js and npm installed on your machine.
 
 ```bash
 git clone https://github.com/your-username/your-backend.git
+
 cd your-backend
+
 `npm install`
 
 `npm run db:init`
