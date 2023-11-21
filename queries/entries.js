@@ -36,14 +36,8 @@ const getEntry = async (id) => {
 const postEntry = async (entries) => {
   try {
     const newEntry = await db.one(
-      "INSERT INTO diary_entries (user_id, title, content, mood, is_private) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      [
-        entries.user_id,
-        entries.title,
-        entries.content,
-        entries.mood,
-        entries.is_private,
-      ]
+      "INSERT INTO diary_entries ( title, content, mood, is_private) VALUES ($1, $2, $3, $4) RETURNING *",
+      [entries.title, entries.content, entries.mood, entries.is_private]
     );
     return newEntry;
   } catch (e) {
